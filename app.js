@@ -17,6 +17,9 @@ app.use(logger('tiny'));
 app.use(cors());
 
 app.use(quoteRoutes);
+app.use((req, res, next) => {
+	res.json({ error: 'not exist' });
+});
 
 app.listen(PORT, () => {
 	debug(`server listening on port: ${PORT}`);
