@@ -1,17 +1,12 @@
 const Quote = require('../models/quote');
 
-exports.getRandom = (req, res) => {
-	Quote.count().exec((err, count) => {
-		const randomEntry = Math.floor(Math.random() * count);
-		Quote.findOne()
-			.skip(randomEntry)
-			.exec((err, randomQuote) => {
-				if (err) {
-					res.status(500).send();
-				}
-				res.json({ randomQuote });
-			});
-	});
+exports.getRandom = async (req, res) => {
+	try {
+		const randomQuote = await Quote.aggregate([{ $sample: { size: 1 } }]);
+		res.json({ randomQuote });
+	} catch (e) {
+		res.status(500).send();
+	}
 };
 
 exports.createQuote = async (req, res) => {
