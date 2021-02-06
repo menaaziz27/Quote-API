@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(logger('tiny'));
 app.use(cors());
 
+app.use('/', (req, res, next) => {
+	res.json({ message: 'Welcome to my quotes API :)!' });
+});
 app.use(quoteRoutes);
 app.use((req, res, next) => {
 	res.json({ error: 'not exist' });
